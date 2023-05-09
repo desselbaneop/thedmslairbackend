@@ -1,15 +1,24 @@
-package com.ywa.thedmslairbackend.DTO;
+package com.ywa.thedmslairbackend.Domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "Role")
 public class Role {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Integer role_id;
+
+    @Column(name = "role_name", nullable = false)
+    private String name;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
