@@ -40,4 +40,6 @@ public class User {
     )
     Set<Campaign> campaignAdmins = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    private Set<Character> characters;
 }
