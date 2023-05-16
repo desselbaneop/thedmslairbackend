@@ -1,9 +1,12 @@
 package com.ywa.thedmslairbackend.Domain;
 
+import com.ywa.thedmslairbackend.Domain.ManyToManyMappings.CharacterCharacteristics;
+import com.ywa.thedmslairbackend.Domain.ManyToManyMappings.CharacterStats;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,8 +28,11 @@ public class Character {
     private Inventory inventory;
 
     @OneToMany(mappedBy = "character")
-    private Set<Stat> stats;
+    private Set<CharacterStats> stats;
 
     @OneToMany(mappedBy = "character")
-    private Set<Characteristic> characteristics;
+    private Set<CharacterCharacteristics> characteristics;
+
+    @ManyToMany(mappedBy = "characters")
+    private Set<Campaign> campaigns = new HashSet<>();
 }

@@ -1,5 +1,6 @@
 package com.ywa.thedmslairbackend.Domain;
 
+import com.ywa.thedmslairbackend.Domain.ManyToManyMappings.CharacterCharacteristics;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,5 +23,5 @@ public class Characteristic {
     private String characteristic_description;
 
     @OneToMany(mappedBy = "characteristic")
-    private Set<Character> characters;
+    private Set<CharacterCharacteristics> characters;
 }

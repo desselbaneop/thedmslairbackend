@@ -1,5 +1,6 @@
 package com.ywa.thedmslairbackend.Domain;
 
+import com.ywa.thedmslairbackend.Domain.ManyToManyMappings.InventoryItems;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,5 +24,5 @@ public class Item {
     private String itemDescription;
 
     @OneToMany(mappedBy = "item")
-    private Set<Inventory> inventorySet;
+    private Set<InventoryItems> inventorySet;
 }

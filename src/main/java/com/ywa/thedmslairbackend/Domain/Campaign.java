@@ -23,6 +23,14 @@ public class Campaign {
     @Column(name = "description")
     private String description;
 
+    @ManyToMany(cascade = { CascadeType.PERSIST })
+    @JoinTable(
+            name = "Campaign_Characters",
+            joinColumns = { @JoinColumn(name = "campaign_id") },
+            inverseJoinColumns = { @JoinColumn(name = "character_id") }
+    )
+    private Set<Character> characters = new HashSet<>();
+
     @ManyToMany(mappedBy = "campaignsParticipant")
     private Set<User> users = new HashSet<>();
 
