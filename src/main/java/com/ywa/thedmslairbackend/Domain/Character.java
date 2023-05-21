@@ -20,8 +20,8 @@ public class Character {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "player_id", nullable = false)
+    private Player player;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")

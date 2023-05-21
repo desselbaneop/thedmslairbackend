@@ -10,12 +10,12 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "User")
-public class User {
+@Table(name = "Player")
+public class Player {
 
     @Id
     @GeneratedValue
-    private Integer user_id;
+    private Integer player_id;
 
     @Column(name = "username", nullable = false)
     private String name;
@@ -26,9 +26,9 @@ public class User {
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
-            name = "Campaign_Users",
+            name = "Campaign_Players",
             joinColumns = { @JoinColumn(name = "campaign_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+            inverseJoinColumns = { @JoinColumn(name = "player_id") }
     )
     Set<Campaign> campaignsParticipant = new HashSet<>();
 
@@ -36,10 +36,10 @@ public class User {
     @JoinTable(
             name = "Campaign_Admins",
             joinColumns = { @JoinColumn(name = "campaign_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+            inverseJoinColumns = { @JoinColumn(name = "player_id") }
     )
     Set<Campaign> campaignAdmins = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "player")
     private Set<Character> characters;
 }

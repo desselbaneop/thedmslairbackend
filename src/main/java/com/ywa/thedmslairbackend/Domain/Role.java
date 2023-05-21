@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -14,7 +16,6 @@ import java.util.List;
 public class Role {
     @Id
     @GeneratedValue
-    @Column(name = "id")
     private Integer role_id;
 
     @Column(name = "role_name", nullable = false)
@@ -26,13 +27,13 @@ public class Role {
             joinColumns = { @JoinColumn(name = "role_id")},
             inverseJoinColumns = { @JoinColumn(name = "permission_id")}
     )
-    private List<Permission> permissions = new ArrayList<>();
+    private Set<Permission> permissions = new HashSet<>();
 
     @OneToMany(
             mappedBy = "role",
             cascade = CascadeType.ALL
     )
-    private List<User> users = new ArrayList<>();
+    private Set<Player> players = new HashSet<>();
 
     public void addPermission(Permission permission) {
         permissions.add(permission);
@@ -45,11 +46,11 @@ public class Role {
         //TODO
     }
 
-    public List<Permission> getPermissions() {
+    public Set<Permission> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(List<Permission> permissions) {
+    public void setPermissions(Set<Permission> permissions) {
         this.permissions = permissions;
     }
 }

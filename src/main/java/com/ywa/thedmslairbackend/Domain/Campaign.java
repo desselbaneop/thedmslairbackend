@@ -32,8 +32,8 @@ public class Campaign {
     private Set<Character> characters = new HashSet<>();
 
     @ManyToMany(mappedBy = "campaignsParticipant")
-    private Set<User> users = new HashSet<>();
+    private Set<Player> players = new HashSet<>();
 
     @ManyToMany(mappedBy = "campaignAdmins")
-    private Set<User> admins = new HashSet<>();
+    private Set<Player> admins = new HashSet<>();
 }

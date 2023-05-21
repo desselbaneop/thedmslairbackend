@@ -19,8 +19,8 @@ public class Characteristic {
     @Column(name = "characteristic_name", nullable = false)
     private String characteristicName;
 
-    @Column(name = "characteristic_description", nullable = false)
-    private String characteristic_description;
+    @Column(name = "characteristic_description")
+    private String characteristicDescription;
 
     @OneToMany(mappedBy = "characteristic")
     private Set<CharacterCharacteristics> characters;

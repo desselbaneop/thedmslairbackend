@@ -12,5 +12,5 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class CharacterCharacteristicsId implements Serializable {
     private int character;
-    private int characteristic;
+    private int characteristicOwned;
 }

@@ -20,7 +20,7 @@ public class CharacterCharacteristics {
 
     @Id
     @GeneratedValue
-    private Integer statOwned;
+    private Integer characteristicOwned;
 
     @ManyToOne
     @JoinColumn(name = "characteristic_id", referencedColumnName = "id")
