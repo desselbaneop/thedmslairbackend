@@ -1,4 +1,4 @@
-package com.ywa.thedmslairbackend.Domain.ManyToManyMappings;
+package com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals;
 
 
 import lombok.EqualsAndHashCode;

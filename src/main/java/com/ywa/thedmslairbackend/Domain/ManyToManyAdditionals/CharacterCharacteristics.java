@@ -1,4 +1,4 @@
-package com.ywa.thedmslairbackend.Domain.ManyToManyMappings;
+package com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals;
 
 import com.ywa.thedmslairbackend.Domain.Character;
 import com.ywa.thedmslairbackend.Domain.Characteristic;

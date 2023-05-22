@@ -1,6 +1,6 @@
 package com.ywa.thedmslairbackend.Domain;
 
-import com.ywa.thedmslairbackend.Domain.ManyToManyMappings.CharacterCharacteristics;
+import com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals.CharacterCharacteristics;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

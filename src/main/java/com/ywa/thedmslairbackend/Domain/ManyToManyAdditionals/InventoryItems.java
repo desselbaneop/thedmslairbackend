@@ -1,4 +1,4 @@
-package com.ywa.thedmslairbackend.Domain.ManyToManyMappings;
+package com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals;
 
 import com.ywa.thedmslairbackend.Domain.Inventory;
 import com.ywa.thedmslairbackend.Domain.Item;
