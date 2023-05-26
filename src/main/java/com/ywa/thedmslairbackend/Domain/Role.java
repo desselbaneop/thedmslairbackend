@@ -1,5 +1,6 @@
 package com.ywa.thedmslairbackend.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class Role {
     @Column(name = "role_name", nullable = false)
     private String name;
 
+    @JsonIgnore
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name = "Role_Permissions",
@@ -29,6 +31,7 @@ public class Role {
     )
     private Set<Permission> permissions = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(
             mappedBy = "role",
             cascade = CascadeType.ALL

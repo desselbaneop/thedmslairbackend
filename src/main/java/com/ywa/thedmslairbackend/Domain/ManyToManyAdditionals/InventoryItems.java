@@ -1,5 +1,6 @@
 package com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ywa.thedmslairbackend.Domain.Inventory;
 import com.ywa.thedmslairbackend.Domain.Item;
 import jakarta.persistence.*;
@@ -14,6 +15,7 @@ import lombok.Setter;
 public class InventoryItems {
 
     @Id
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")
     private Inventory inventory;
@@ -22,6 +24,7 @@ public class InventoryItems {
     @GeneratedValue
     private Integer itemOwned;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     private Item item;

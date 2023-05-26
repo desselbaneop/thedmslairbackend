@@ -1,5 +1,6 @@
 package com.ywa.thedmslairbackend.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals.InventoryItems;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,9 +17,11 @@ public class Inventory {
     @GeneratedValue
     private Integer id;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "inventory")
     private Character character;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "inventory")
     private Set<InventoryItems> items;
 }

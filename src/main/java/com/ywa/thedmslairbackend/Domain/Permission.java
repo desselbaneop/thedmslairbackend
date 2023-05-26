@@ -1,5 +1,6 @@
 package com.ywa.thedmslairbackend.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class Permission {
     @Column(name = "permission_name", nullable = false)
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "permissions")
     private List<Role> permissions = new ArrayList<>();
 

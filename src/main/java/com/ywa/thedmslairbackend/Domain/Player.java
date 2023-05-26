@@ -1,17 +1,22 @@
 package com.ywa.thedmslairbackend.Domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "Player")
-public class Player {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Player implements Serializable {
 
     @Id
     @GeneratedValue
@@ -20,26 +25,31 @@ public class Player {
     @Column(name = "username", nullable = false)
     private String name;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="role_id")
     private Role role;
 
+    @JsonBackReference
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Campaign_Players",
             joinColumns = { @JoinColumn(name = "campaign_id") },
             inverseJoinColumns = { @JoinColumn(name = "player_id") }
     )
-    Set<Campaign> campaignsParticipant = new HashSet<>();
+    List<Campaign> campaignsParticipant;
 
+    @JsonBackReference
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Campaign_Admins",
             joinColumns = { @JoinColumn(name = "campaign_id") },
             inverseJoinColumns = { @JoinColumn(name = "player_id") }
     )
-    Set<Campaign> campaignAdmins = new HashSet<>();
+    List<Campaign> campaignAdmins;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "player")
-    private Set<Character> characters;
+    List<Character> characters;
+
 }

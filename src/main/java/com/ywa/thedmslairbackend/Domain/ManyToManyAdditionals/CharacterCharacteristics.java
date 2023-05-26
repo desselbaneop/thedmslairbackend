@@ -1,5 +1,6 @@
 package com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ywa.thedmslairbackend.Domain.Character;
 import com.ywa.thedmslairbackend.Domain.Characteristic;
 import jakarta.persistence.*;
@@ -14,6 +15,7 @@ import lombok.Setter;
 public class CharacterCharacteristics {
 
     @Id
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "character_id", referencedColumnName = "id")
     private Character character;
@@ -22,6 +24,7 @@ public class CharacterCharacteristics {
     @GeneratedValue
     private Integer characteristicOwned;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "characteristic_id", referencedColumnName = "id")
     private Characteristic characteristic;

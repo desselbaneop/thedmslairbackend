@@ -1,5 +1,6 @@
 package com.ywa.thedmslairbackend.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals.InventoryItems;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Item {
     @Column(name = "item_description")
     private String itemDescription;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "item")
     private Set<InventoryItems> inventorySet;
 }

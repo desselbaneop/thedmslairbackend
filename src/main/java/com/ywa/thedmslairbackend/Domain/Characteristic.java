@@ -1,5 +1,6 @@
 package com.ywa.thedmslairbackend.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals.CharacterCharacteristics;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Characteristic {
     @Column(name = "characteristic_description")
     private String characteristicDescription;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "characteristic")
     private Set<CharacterCharacteristics> characters;
 }
