@@ -12,10 +12,12 @@ public class CharacterSerializer extends JsonSerializer<Character> {
     @Override
     public void serialize(Character character, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartObject();
-        gen.writeObjectField("id", character.getId());
-        gen.writeObjectField("player", character.getPlayer());
-        gen.writeObjectField("inventory", character.getInventory());
-        // Serialize other character properties as needed
+        gen.writeStringField("name", character.getName());
+        gen.writeStringField("description", character.getDescription());
+        gen.writeStringField("backstory", character.getBackstory());
+        gen.writeStringField("imgURL", character.getImgURL());
+        // Serialize other properties as needed
+
         gen.writeEndObject();
     }
 }

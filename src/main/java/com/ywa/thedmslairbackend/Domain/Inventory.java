@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "Inventory")
+@Table(name = "inventories")
 public class Inventory {
     @Id
     @GeneratedValue

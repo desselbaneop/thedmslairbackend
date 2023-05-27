@@ -1,9 +1,9 @@
 package com.ywa.thedmslairbackend.Controller;
 
 import com.ywa.thedmslairbackend.Domain.Campaign;
-import com.ywa.thedmslairbackend.Domain.Player;
+import com.ywa.thedmslairbackend.Domain.User;
 import com.ywa.thedmslairbackend.Service.CampaignService;
-import com.ywa.thedmslairbackend.Service.PlayerService;
+import com.ywa.thedmslairbackend.Service.Interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class CampaignController {
     @Autowired
     CampaignService campaignService;
     @Autowired
-    PlayerService playerService;
+    UserService userService;
 
     @GetMapping
     public ResponseEntity<List<Campaign>> findAll(){
@@ -40,19 +40,19 @@ public class CampaignController {
         }
     }
 
-    @GetMapping("/{id}/players")
-    public ResponseEntity<List<Player>> findPlayersByCampaignId(@PathVariable int id){
-        List<Player> players = campaignService.findById(id).getPlayers();
-        if (!players.isEmpty()){
-            return new ResponseEntity<>(players, HttpStatus.OK);
+    @GetMapping("/{id}/users")
+    public ResponseEntity<List<User>> findPlayersByCampaignId(@PathVariable int id){
+        List<User> users = campaignService.findById(id).getUsers();
+        if (!users.isEmpty()){
+            return new ResponseEntity<>(users, HttpStatus.OK);
         }else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/{id}/admins")
-    public ResponseEntity<List<Player>> findAdminsByCampaignId(@PathVariable int id){
-        List<Player> admins = campaignService.findById(id).getAdmins();
+    public ResponseEntity<List<User>> findAdminsByCampaignId(@PathVariable int id){
+        List<User> admins = campaignService.findById(id).getAdmins();
         if (!admins.isEmpty()){
             return new ResponseEntity<>(admins, HttpStatus.OK);
         }else {
@@ -62,15 +62,13 @@ public class CampaignController {
 
     @PostMapping()
     public ResponseEntity<Campaign> create(@RequestBody Campaign campaignSent){
-        System.out.println(campaignSent);
         Campaign campaign = new Campaign(campaignSent.getName(), campaignSent.getDescription());
-        System.out.println(campaign);
         campaignService.save(campaign);
         return new ResponseEntity<>(campaignService.save(campaign), HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/admins")
-    public ResponseEntity<Player> addAdmin(@PathVariable int id, @RequestParam("playerId") int playerId){
+    public ResponseEntity<User> addAdmin(@PathVariable int id, @RequestParam("playerId") int playerId){
         if (campaignService.findById(id)!=null){
             campaignService.addAdminByPlayerId(playerId, id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -79,8 +77,8 @@ public class CampaignController {
         }
     }
 
-    @PostMapping("/{id}/players")
-    public ResponseEntity<Player> addPlayer(@PathVariable int id, @RequestParam("playerId") int playerId){
+    @PostMapping("/{id}/users")
+    public ResponseEntity<User> addPlayer(@PathVariable int id, @RequestParam("playerId") int playerId){
         if (campaignService.findById(id)!=null){
             campaignService.addPlayerByPlayerId(playerId, id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -109,9 +107,9 @@ public class CampaignController {
         }
     }
 
-    @DeleteMapping("/{campaignId}/players/{playerId}")
+    @DeleteMapping("/{campaignId}/users/{playerId}")
     public ResponseEntity<HttpStatus> removePlayerFromCampaignByIds(@PathVariable int campaignId, @PathVariable int playerId){
-        if (campaignService.findById(campaignId)!=null&&playerService.findById(playerId)!=null){
+        if (campaignService.findById(campaignId)!=null&& userService.findById(playerId)!=null){
             campaignService.removePlayerFromCampaignByIds(campaignId, playerId);
             return new ResponseEntity<>(HttpStatus.OK);
         }else {
@@ -121,7 +119,7 @@ public class CampaignController {
 
     @DeleteMapping("/{campaignId}/admins/{adminId}")
     public ResponseEntity<HttpStatus> removeAdminFromCampaignByIds(@PathVariable int campaignId, @PathVariable int adminId){
-        if (campaignService.findById(campaignId)!=null&&playerService.findById(adminId)!=null){
+        if (campaignService.findById(campaignId)!=null&& userService.findById(adminId)!=null){
             campaignService.removeAdminFromCampaignByIds(campaignId, adminId);
             return new ResponseEntity<>(HttpStatus.OK);
         }else {

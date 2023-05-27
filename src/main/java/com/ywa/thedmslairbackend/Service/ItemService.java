@@ -1,7 +1,6 @@
 package com.ywa.thedmslairbackend.Service;
 
 import com.ywa.thedmslairbackend.Domain.Item;
-import com.ywa.thedmslairbackend.Domain.Permission;
 import com.ywa.thedmslairbackend.Repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,6 +8,9 @@ import com.ywa.thedmslairbackend.Domain.DeSerializers.Campaign.CampaignDeseriali
 import com.ywa.thedmslairbackend.Domain.DeSerializers.Campaign.CampaignSerializer;
 import com.ywa.thedmslairbackend.Domain.DeSerializers.Character.CharacterDeserializer;
 import com.ywa.thedmslairbackend.Domain.DeSerializers.Character.CharacterSerializer;
+import com.ywa.thedmslairbackend.Domain.DeSerializers.User.UserSerializer;
+import com.ywa.thedmslairbackend.Domain.User;
+import com.ywa.thedmslairbackend.Domain.DeSerializers.User.UserDeserializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,6 +33,10 @@ public class JacksonConfiguration {
 
         // Register the deserializer for Character
         module.addDeserializer(Character.class, new CharacterDeserializer());
+
+        module.addSerializer(User.class, new UserSerializer());
+
+        module.addDeserializer(User.class, new UserDeserializer());
 
         objectMapper.registerModule(module);
         return objectMapper;

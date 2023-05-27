@@ -1,21 +1,32 @@
 package com.ywa.thedmslairbackend.Domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @Entity
 @Getter
 @Setter
-@Table(name = "Role")
+@Table(name = "roles")
 public class Role {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ERole name;
+
+    public Role() {
+
+    }
+
+    public Role(ERole name) {
+        this.name = name;
+    }
+
+   /* @Id
     @GeneratedValue
     private Integer role_id;
 
@@ -36,24 +47,6 @@ public class Role {
             mappedBy = "role",
             cascade = CascadeType.ALL
     )
-    private Set<Player> players = new HashSet<>();
+    private Set<User> users = new HashSet<>();*/
 
-    public void addPermission(Permission permission) {
-        permissions.add(permission);
-        //TODO
-        // - After creating a controller for permissions - add function
-        // - example: https://github.com/refactorizando-web/Many-To-Many
-    }
-    public void removePermission(Permission permission) {
-        permissions.remove(permission);
-        //TODO
-    }
-
-    public Set<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Set<Permission> permissions) {
-        this.permissions = permissions;
-    }
 }

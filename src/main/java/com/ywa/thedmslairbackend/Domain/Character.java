@@ -16,18 +16,22 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "Character")
+@Table(name = "characters")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Integer.class)
 public class Character {
 
     @Id
     @GeneratedValue
     private Integer id;
+    private String name;
+    private String description;
+    private String backstory;
+    private String imgURL;
 
-    @JsonBackReference(value = "player-characters")
+    @JsonBackReference(value = "user-characters")
     @ManyToOne
-    @JoinColumn(name = "player_id", nullable = false)
-    private Player player;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")

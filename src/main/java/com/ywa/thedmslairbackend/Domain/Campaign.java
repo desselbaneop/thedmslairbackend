@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "Campaign")
+@Table(name = "campaigns")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Campaign implements Serializable {
@@ -39,11 +39,11 @@ public class Campaign implements Serializable {
     @JsonManagedReference(value = "campaign-participants")
     @ManyToMany(mappedBy = "campaignsParticipant")
 //    @Column(nullable = false)
-    private List<Player> players = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     @JsonManagedReference(value = "campaign-admins")
     @ManyToMany(mappedBy = "campaignAdmins")
-    private List<Player> admins = new ArrayList<>();
+    private List<User> admins = new ArrayList<>();
 
     public Campaign(String name, String description) {
         this.name = name;
@@ -61,7 +61,7 @@ public class Campaign implements Serializable {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", characters=" + characters +
-                ", players=" + players +
+                ", users=" + users +
                 ", admins=" + admins +
                 '}';
     }
