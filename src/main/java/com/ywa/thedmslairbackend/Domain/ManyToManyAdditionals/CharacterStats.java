@@ -1,5 +1,6 @@
 package com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ywa.thedmslairbackend.Domain.Character;
 import com.ywa.thedmslairbackend.Domain.Stat;
@@ -15,7 +16,7 @@ import lombok.Setter;
 public class CharacterStats {
 
     @Id
-    @JsonIgnore
+    @JsonBackReference(value = "character-stats")
     @ManyToOne
     @JoinColumn(name = "character_id", referencedColumnName = "id")
     private Character character;

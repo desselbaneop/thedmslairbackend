@@ -17,7 +17,6 @@ public class Inventory {
     @GeneratedValue
     private Integer id;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "inventory")
     private Character character;
 

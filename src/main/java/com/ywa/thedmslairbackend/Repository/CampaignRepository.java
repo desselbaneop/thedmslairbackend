@@ -1,30 +1,43 @@
 package com.ywa.thedmslairbackend.Repository;
 
 import com.ywa.thedmslairbackend.Domain.Campaign;
-import com.ywa.thedmslairbackend.Domain.Player;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 public interface CampaignRepository extends JpaRepository<Campaign, Integer> {
 
+    @Transactional
+    @Modifying
     @Query(
-            value = "INSERT INTO campaign_players (player_id) VALUES (?1) WHERE campaign_id = ?2 ",
+            value = "INSERT INTO campaign_players (player_id, campaign_id) VALUES (?1, ?2) RETURNING player_id;",
             nativeQuery = true
     )
-    ResponseEntity<List<Player>> addPlayerByPlayerId(int playerId, int campaign_id);
+    void addPlayerByPlayerId(int playerId, int campaign_id);
 
+    @Transactional
+    @Modifying
     @Query(
-            value = "INSERT INTO campaign_admins (player_id) VALUES (?1) WHERE campaign_id = ?2 ",
+            value = "INSERT INTO campaign_admins (player_id, campaign_id) VALUES (?1, ?2) RETURNING player_id;",
             nativeQuery = true
     )
-    ResponseEntity<Player> addAdminByPlayerId(int playerId, int campaign_id);
+    void addAdminByPlayerId(int playerId, int campaign_id);
 
+    @Transactional
+    @Modifying
+    @Query(
+            value = "DELETE FROM campaign_players WHERE campaign_id = ?1 AND player_id = ?2 RETURNING player_id;",
+            nativeQuery = true
+    )
+    void removePlayerFromCampaignByIds(int campaignId, int playerId);
 
-/*    @Query(
-            value = "SELECT campaign_id FROM campaign_players WHERE player_id = ?1",
-            nativeQuery = true)
-    List<Integer> findAllByPlayerId(int playerId);*/
+    @Transactional
+    @Modifying
+    @Query(
+            value = "DELETE FROM campaign_admins WHERE campaign_id = ?1 AND player_id = ?2 RETURNING player_id;",
+            nativeQuery = true
+    )
+    void removeAdminFromCampaignByIds(int campaignId, int playerId);
+
 }

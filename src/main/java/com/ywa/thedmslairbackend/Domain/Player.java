@@ -1,9 +1,6 @@
 package com.ywa.thedmslairbackend.Domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +13,7 @@ import java.util.List;
 @Setter
 @Table(name = "Player")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "player_id")
 public class Player implements Serializable {
 
     @Id
@@ -30,7 +28,7 @@ public class Player implements Serializable {
     @JoinColumn(name="role_id")
     private Role role;
 
-    @JsonBackReference
+    @JsonBackReference(value = "campaign-participants")
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Campaign_Players",
@@ -39,7 +37,7 @@ public class Player implements Serializable {
     )
     List<Campaign> campaignsParticipant;
 
-    @JsonBackReference
+    @JsonBackReference(value = "campaign-admins")
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Campaign_Admins",
@@ -48,7 +46,7 @@ public class Player implements Serializable {
     )
     List<Campaign> campaignAdmins;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "player-characters")
     @OneToMany(mappedBy = "player")
     List<Character> characters;
 
