@@ -111,4 +111,11 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
+    @PostMapping("/logout")
+    public void logout() {
+        // Invalidate the current user's JWT token
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        jwtUtils.invalidateToken(authentication);
+    }
 }
