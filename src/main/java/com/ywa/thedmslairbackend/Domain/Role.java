@@ -25,28 +25,4 @@ public class Role {
     public Role(ERole name) {
         this.name = name;
     }
-
-   /* @Id
-    @GeneratedValue
-    private Integer role_id;
-
-    @Column(name = "role_name", nullable = false)
-    private String name;
-
-    @JsonIgnore
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(
-            name = "Role_Permissions",
-            joinColumns = { @JoinColumn(name = "role_id")},
-            inverseJoinColumns = { @JoinColumn(name = "permission_id")}
-    )
-    private Set<Permission> permissions = new HashSet<>();
-
-    @JsonIgnore
-    @OneToMany(
-            mappedBy = "role",
-            cascade = CascadeType.ALL
-    )
-    private Set<User> users = new HashSet<>();*/
-
 }

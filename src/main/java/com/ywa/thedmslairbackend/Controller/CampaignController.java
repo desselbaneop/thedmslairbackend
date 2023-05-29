@@ -7,6 +7,7 @@ import com.ywa.thedmslairbackend.Service.Interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class CampaignController {
     UserService userService;
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<Campaign>> findAll(){
         List<Campaign> campaigns = campaignService.findAll();
         if (campaigns.isEmpty()){
@@ -31,6 +33,7 @@ public class CampaignController {
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Campaign> findById(@PathVariable int id){
         Campaign campaign = campaignService.findById(id);
         if (campaign==null){
@@ -41,6 +44,7 @@ public class CampaignController {
     }
 
     @GetMapping("/{id}/users")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<User>> findPlayersByCampaignId(@PathVariable int id){
         List<User> users = campaignService.findById(id).getUsers();
         if (!users.isEmpty()){
@@ -51,6 +55,7 @@ public class CampaignController {
     }
 
     @GetMapping("/{id}/admins")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<User>> findAdminsByCampaignId(@PathVariable int id){
         List<User> admins = campaignService.findById(id).getAdmins();
         if (!admins.isEmpty()){
@@ -61,6 +66,7 @@ public class CampaignController {
     }
 
     @PostMapping()
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Campaign> create(@RequestBody Campaign campaignSent){
         Campaign campaign = new Campaign(campaignSent.getName(), campaignSent.getDescription());
         campaignService.save(campaign);
@@ -68,6 +74,7 @@ public class CampaignController {
     }
 
     @PostMapping("/{id}/admins")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<User> addAdmin(@PathVariable int id, @RequestParam("playerId") int playerId){
         if (campaignService.findById(id)!=null){
             campaignService.addAdminByPlayerId(playerId, id);
@@ -78,6 +85,7 @@ public class CampaignController {
     }
 
     @PostMapping("/{id}/users")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<User> addPlayer(@PathVariable int id, @RequestParam("playerId") int playerId){
         if (campaignService.findById(id)!=null){
             campaignService.addPlayerByPlayerId(playerId, id);
@@ -88,6 +96,7 @@ public class CampaignController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Campaign> updateCampaignById(@PathVariable int id, @RequestBody Campaign campaignSent){
         System.out.println(campaignSent);
         Campaign campaign = campaignService.findById(id);
@@ -98,6 +107,7 @@ public class CampaignController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> deleteCampaignById(@PathVariable int id){
         if (campaignService.findById(id)!=null){
             campaignService.deleteById(id);
@@ -108,6 +118,7 @@ public class CampaignController {
     }
 
     @DeleteMapping("/{campaignId}/users/{playerId}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> removePlayerFromCampaignByIds(@PathVariable int campaignId, @PathVariable int playerId){
         if (campaignService.findById(campaignId)!=null&& userService.findById(playerId)!=null){
             campaignService.removePlayerFromCampaignByIds(campaignId, playerId);
@@ -118,6 +129,7 @@ public class CampaignController {
     }
 
     @DeleteMapping("/{campaignId}/admins/{adminId}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> removeAdminFromCampaignByIds(@PathVariable int campaignId, @PathVariable int adminId){
         if (campaignService.findById(campaignId)!=null&& userService.findById(adminId)!=null){
             campaignService.removeAdminFromCampaignByIds(campaignId, adminId);

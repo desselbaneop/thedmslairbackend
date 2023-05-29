@@ -3,17 +3,19 @@ package com.ywa.thedmslairbackend.Controller;
 import com.ywa.thedmslairbackend.Domain.ERole;
 import com.ywa.thedmslairbackend.Domain.Role;
 import com.ywa.thedmslairbackend.Domain.User;
+import com.ywa.thedmslairbackend.Payload.Request.LoginRequest;
+import com.ywa.thedmslairbackend.Payload.Request.SignupRequest;
 import com.ywa.thedmslairbackend.Payload.Response.JwtResponse;
 import com.ywa.thedmslairbackend.Payload.Response.MessageResponse;
 import com.ywa.thedmslairbackend.Repository.RoleRepository;
 import com.ywa.thedmslairbackend.Repository.UserRepository;
 import com.ywa.thedmslairbackend.Security.JWT.JwtUtils;
 import com.ywa.thedmslairbackend.Service.JWTUser.UserDetailsImpl;
-import com.ywa.thedmslairbackend.Payload.Request.LoginRequest;
-import com.ywa.thedmslairbackend.Payload.Request.SignupRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -65,6 +67,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        System.out.println(signUpRequest.toString());
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
@@ -113,9 +116,12 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public void logout() {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
         // Invalidate the current user's JWT token
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        jwtUtils.invalidateToken(authentication);
+        jwtUtils.invalidateToken(request);
+        System.out.println("User logged out successfully!");
+        return ResponseEntity.ok(new MessageResponse("User logged out successfully!"));
     }
+
 }

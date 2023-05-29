@@ -5,6 +5,7 @@ import com.ywa.thedmslairbackend.Service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class CharacterController {
     CharacterService characterService;
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<Character>> findAll(){
         List<Character> characters = characterService.findAll();
         if (!characters.isEmpty()){
@@ -26,6 +28,7 @@ public class CharacterController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Character> findById(@PathVariable int id){
         Character character = characterService.findById(id);
         if (character!=null){
@@ -36,6 +39,7 @@ public class CharacterController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Character> create(@RequestBody Character characterSent){
         Character character = new Character();
         character.setName(characterSent.getName());
@@ -46,6 +50,7 @@ public class CharacterController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Character> update(@PathVariable int id, @RequestBody Character characterSent){
         Character character = characterService.findById(id);
         if (character!=null){
@@ -60,6 +65,7 @@ public class CharacterController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> delete(@PathVariable int id){
         if (characterService.findById(id)!=null){
             characterService.deleteById(id);
