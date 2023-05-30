@@ -8,6 +8,15 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CampaignRepository extends JpaRepository<Campaign, Integer> {
 
+    Campaign findCampaignByName(String campaignName);
+
+    @Query(
+            value = "SELECT COUNT(*) FROM campaign_users WHERE campaign_id = ?2 AND user_id = ?1",
+            nativeQuery = true
+    )
+    int checkDuplicates(int playerId, int campaignId);
+
+
     @Transactional
     @Modifying
     @Query(

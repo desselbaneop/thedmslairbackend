@@ -1,7 +1,9 @@
 package com.ywa.thedmslairbackend.Controller;
 
 import com.ywa.thedmslairbackend.Domain.Campaign;
+import com.ywa.thedmslairbackend.Domain.Character;
 import com.ywa.thedmslairbackend.Domain.User;
+import com.ywa.thedmslairbackend.Payload.Request.CampaignPostPutRequest;
 import com.ywa.thedmslairbackend.Service.CampaignService;
 import com.ywa.thedmslairbackend.Service.Interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,17 @@ public class CampaignController {
         }
     }
 
+    @GetMapping("/{id}/characters")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<List<Character>> findCharactersByCampaignId(@PathVariable int id){
+        List<Character> characters = campaignService.findById(id).getCharacters();
+        if (!characters.isEmpty()){
+            return new ResponseEntity<>(characters, HttpStatus.OK);
+        }else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     // TODO:
     //  Left this out for the further development. Not needed right now
     //  The endpoint would allow to get all the custom "admins" of a campaign. Look further for the usage of "admins"
@@ -70,9 +83,16 @@ public class CampaignController {
 
     @PostMapping()
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<Campaign> create(@RequestBody Campaign campaignSent){
+    public ResponseEntity<Campaign> create(@RequestBody CampaignPostPutRequest campaignSent){
         Campaign campaign = new Campaign(campaignSent.getName(), campaignSent.getDescription());
+        campaign.setUsers(List.of(userService.findById(campaignSent.getOwnerId())));
         campaignService.save(campaign);
+
+        campaignService.addPlayerByPlayerId(campaignSent.getOwnerId(),
+                campaignService.findByName(campaignSent.getName()).getId());
+        campaignService.addAdminByPlayerId(campaignSent.getOwnerId(),
+                campaignService.findByName(campaignSent.getName()).getId());
+
         return new ResponseEntity<>(campaign, HttpStatus.CREATED);
     }
 

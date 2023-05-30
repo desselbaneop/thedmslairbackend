@@ -2,7 +2,7 @@ package com.ywa.thedmslairbackend.Controller;
 
 import com.ywa.thedmslairbackend.Domain.Character;
 import com.ywa.thedmslairbackend.Domain.Inventory;
-import com.ywa.thedmslairbackend.Payload.Request.CharacterCreateRequest;
+import com.ywa.thedmslairbackend.Payload.Request.CharacterPostPutRequest;
 import com.ywa.thedmslairbackend.Service.CharacterService;
 import com.ywa.thedmslairbackend.Service.InventoryService;
 import com.ywa.thedmslairbackend.Service.ServicesImpl.UserServiceImpl;
@@ -68,7 +68,7 @@ public class CharacterController {
      */
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<Character> create(@Valid @RequestBody CharacterCreateRequest characterSent){
+    public ResponseEntity<Character> create(@Valid @RequestBody CharacterPostPutRequest characterSent){
         System.out.println(characterSent);
         Inventory inventory = new Inventory();
         inventoryService.save(inventory);

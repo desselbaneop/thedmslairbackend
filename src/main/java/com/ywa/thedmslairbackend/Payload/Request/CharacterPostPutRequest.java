@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CharacterCreateRequest {
+public class CharacterPostPutRequest {
 
     private String name;
     private String description;
