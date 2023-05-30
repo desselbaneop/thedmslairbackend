@@ -42,8 +42,6 @@ public class User implements Serializable {
     private String email;
 
     @JsonIgnore
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$",
-            message = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter and one digit.")
     @Column(nullable = false, length = 100)
     private String password;
 
@@ -58,8 +56,8 @@ public class User implements Serializable {
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Campaign_Users",
-            joinColumns = { @JoinColumn(name = "campaign_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "campaign_id") }
     )
     List<Campaign> campaignsParticipant;
 
@@ -68,8 +66,8 @@ public class User implements Serializable {
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Campaign_Admins",
-            joinColumns = { @JoinColumn(name = "campaign_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "campaign_id") }
     )
     List<Campaign> campaignAdmins;
 

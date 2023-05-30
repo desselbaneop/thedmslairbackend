@@ -11,7 +11,7 @@ public interface CampaignRepository extends JpaRepository<Campaign, Integer> {
     @Transactional
     @Modifying
     @Query(
-            value = "INSERT INTO campaign_players (player_id, campaign_id) VALUES (?1, ?2) RETURNING player_id;",
+            value = "INSERT INTO campaign_users (user_id, campaign_id) VALUES (?1, ?2) RETURNING user_id;",
             nativeQuery = true
     )
     void addPlayerByPlayerId(int playerId, int campaign_id);
@@ -19,25 +19,25 @@ public interface CampaignRepository extends JpaRepository<Campaign, Integer> {
     @Transactional
     @Modifying
     @Query(
-            value = "INSERT INTO campaign_admins (player_id, campaign_id) VALUES (?1, ?2) RETURNING player_id;",
+            value = "INSERT INTO campaign_admins (user_id, campaign_id) VALUES (?1, ?2) RETURNING user_id;",
             nativeQuery = true
     )
-    void addAdminByPlayerId(int playerId, int campaign_id);
+    void addAdminByPlayerId(int userId, int campaign_id);
 
     @Transactional
     @Modifying
     @Query(
-            value = "DELETE FROM campaign_players WHERE campaign_id = ?1 AND player_id = ?2 RETURNING player_id;",
+            value = "DELETE FROM campaign_users WHERE campaign_id = ?1 AND user_id = ?2 RETURNING user;",
             nativeQuery = true
     )
-    void removePlayerFromCampaignByIds(int campaignId, int playerId);
+    void removePlayerFromCampaignByIds(int campaignId, int userId);
 
     @Transactional
     @Modifying
     @Query(
-            value = "DELETE FROM campaign_admins WHERE campaign_id = ?1 AND player_id = ?2 RETURNING player_id;",
+            value = "DELETE FROM campaign_admins WHERE campaign_id = ?1 AND user_id = ?2 RETURNING user_id;",
             nativeQuery = true
     )
-    void removeAdminFromCampaignByIds(int campaignId, int playerId);
+    void removeAdminFromCampaignByIds(int campaignId, int userId);
 
 }

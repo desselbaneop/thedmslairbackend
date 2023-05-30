@@ -54,7 +54,10 @@ public class CampaignController {
         }
     }
 
-    @GetMapping("/{id}/admins")
+    // TODO:
+    //  Left this out for the further development. Not needed right now
+    //  The endpoint would allow to get all the custom "admins" of a campaign. Look further for the usage of "admins"
+/*    @GetMapping("/{id}/admins")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<User>> findAdminsByCampaignId(@PathVariable int id){
         List<User> admins = campaignService.findById(id).getAdmins();
@@ -63,17 +66,22 @@ public class CampaignController {
         }else {
             return ResponseEntity.notFound().build();
         }
-    }
+    }*/
 
     @PostMapping()
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Campaign> create(@RequestBody Campaign campaignSent){
         Campaign campaign = new Campaign(campaignSent.getName(), campaignSent.getDescription());
         campaignService.save(campaign);
-        return new ResponseEntity<>(campaignService.save(campaign), HttpStatus.CREATED);
+        return new ResponseEntity<>(campaign, HttpStatus.CREATED);
     }
 
-    @PostMapping("/{id}/admins")
+    // TODO:
+    //  Left this out for the further development. Not needed right now
+    //  The endpoint would allow to add custom "admins" to the campaign
+    //  That would give the added admins the ability to modify the campaign, add other players to it, etc.
+
+/*    @PostMapping("/{id}/admins")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<User> addAdmin(@PathVariable int id, @RequestParam("playerId") int playerId){
         if (campaignService.findById(id)!=null){
@@ -82,7 +90,7 @@ public class CampaignController {
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
 
     @PostMapping("/{id}/users")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -128,7 +136,10 @@ public class CampaignController {
         }
     }
 
-    @DeleteMapping("/{campaignId}/admins/{adminId}")
+    // TODO:
+    //  Left this out for the further development. Not needed right now
+    //  The endpoint would allow the "owner" of the campaign to delete the custom "admins" from it
+/*    @DeleteMapping("/{campaignId}/admins/{adminId}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> removeAdminFromCampaignByIds(@PathVariable int campaignId, @PathVariable int adminId){
         if (campaignService.findById(campaignId)!=null&& userService.findById(adminId)!=null){
@@ -137,6 +148,6 @@ public class CampaignController {
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
 
 }

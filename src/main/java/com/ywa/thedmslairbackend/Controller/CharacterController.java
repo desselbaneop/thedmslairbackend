@@ -1,7 +1,12 @@
 package com.ywa.thedmslairbackend.Controller;
 
 import com.ywa.thedmslairbackend.Domain.Character;
+import com.ywa.thedmslairbackend.Domain.Inventory;
+import com.ywa.thedmslairbackend.Payload.Request.CharacterCreateRequest;
 import com.ywa.thedmslairbackend.Service.CharacterService;
+import com.ywa.thedmslairbackend.Service.InventoryService;
+import com.ywa.thedmslairbackend.Service.ServicesImpl.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +21,18 @@ public class CharacterController {
     @Autowired
     CharacterService characterService;
 
+    @Autowired
+    InventoryService inventoryService;
+
+    @Autowired
+    UserServiceImpl userService;
+
+    /**
+     * This endpoint is not used right now.
+     * In further iterations of the project will be used on the MODERATOR's dashboard to control the guidelines policies,
+     * renaming or removing a Character.
+     * @return either returns an notFound error or a list of Character objects
+     */
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<Character>> findAll(){
@@ -27,6 +44,12 @@ public class CharacterController {
         }
     }
 
+    /**
+     * This endpoint is currently used to show a particular character in case a user wants to modify it through the
+     * Character component on the front-end
+     * @param id is passed as a simple integer from the front
+     * @return either returns an notFound error or a Character object
+     */
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Character> findById(@PathVariable int id){
@@ -38,14 +61,25 @@ public class CharacterController {
         }
     }
 
+    /**
+     * This endpoint is used to create a Character & to assign it an inventory (as it's a one-to-one, it's done here)
+     * @param characterSent is a custom form that uses the same args as Character, it's easier to send data from the front
+     * @return either returns an notFound error or a Character object
+     */
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<Character> create(@RequestBody Character characterSent){
+    public ResponseEntity<Character> create(@Valid @RequestBody CharacterCreateRequest characterSent){
+        System.out.println(characterSent);
+        Inventory inventory = new Inventory();
+        inventoryService.save(inventory);
+
         Character character = new Character();
         character.setName(characterSent.getName());
         character.setDescription(characterSent.getDescription());
         character.setBackstory(characterSent.getBackstory());
         character.setImgURL(characterSent.getImgURL());
+        character.setInventory(inventory);
+        character.setUser(userService.findById(characterSent.getUserId()));
         return new ResponseEntity<>(characterService.save(character), HttpStatus.CREATED);
     }
 

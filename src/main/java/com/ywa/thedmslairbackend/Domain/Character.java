@@ -21,7 +21,7 @@ import java.util.Set;
 public class Character {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private String description;

@@ -15,7 +15,7 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Set the allowed origins for your React application
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Set the allowed origins for my React application
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // Set the allowed HTTP methods
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // Set the allowed headers
         configuration.setAllowCredentials(true); // Allow sending cookies from the client

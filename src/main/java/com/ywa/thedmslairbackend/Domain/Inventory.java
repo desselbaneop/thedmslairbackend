@@ -5,16 +5,18 @@ import com.ywa.thedmslairbackend.Domain.ManyToManyAdditionals.InventoryItems;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @Table(name = "inventories")
 public class Inventory {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @OneToOne(mappedBy = "inventory")
@@ -23,4 +25,7 @@ public class Inventory {
     @JsonIgnore
     @OneToMany(mappedBy = "inventory")
     private Set<InventoryItems> items;
+
+    public Inventory() {
+    }
 }

@@ -25,6 +25,7 @@ public class InventoryService {
     }
 
     public Inventory save(Inventory inventory){
+        System.out.println(inventory);
         return inventoryRepository.save(inventory);
     }
 
